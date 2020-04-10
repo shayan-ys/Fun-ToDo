@@ -1,39 +1,31 @@
 import * as React from 'react';
-import { Button, View, Text, FlatList } from 'react-native';
+import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import ActivityDetails from "./Component/ActivityDetails/ActivityDetails";
-import ActivityList from "./Component/ActivityList/ActivityList";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import HomeTab from "./Component/HomeTab/HomeTab";
+import { ThemeProvider } from 'react-native-elements';
 
-function HomeScreen({ navigation }) {
+function SettingsTab() {
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Home Screen</Text>
-            <ActivityList navigation={navigation} />
-            <Button
-                title="Add"
-                onPress={() => {
-                    /* 1. Navigate to the Details route with params */
-                    navigation.navigate('ActivityDetails', {
-                        navigation: navigation
-                    });
-                }}
-            />
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text>Settings!</Text>
         </View>
     );
 }
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
-function App() {
-    return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName="Home">
-                <Stack.Screen name="Home" component={HomeScreen} />
-                <Stack.Screen name="ActivityDetails" component={ActivityDetails} options={{ title: "Activity Details" }} />
-            </Stack.Navigator>
+const theme = {};
+
+export default function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <NavigationContainer>
+            <Tab.Navigator>
+                <Tab.Screen name="Home" component={HomeTab} />
+                <Tab.Screen name="Settings" component={SettingsTab} />
+            </Tab.Navigator>
         </NavigationContainer>
-    );
-}
-
-export default App;
+    </ThemeProvider>
+  );
+};

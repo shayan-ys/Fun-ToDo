@@ -1,18 +1,21 @@
 import React from 'react';
-import {View, Text} from "react-native";
+import { ListItem } from 'react-native-elements'
 
-export default function ActivityListItem({navigation, item}) {
+export default function ActivityListItem({ navigation, key, activity }) {
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text
-                onPress={() => {
-                    /* 1. Navigate to the Details route with params */
-                    navigation.navigate('ActivityDetails', {
-                        navigation: navigation,
-                        item: item,
-                    });
-                }}
-            >{item.title}</Text>
-        </View>
+        <ListItem
+            key={key}
+            title={activity.title}
+            leftIcon={{ name: 'flight-takeoff' }}
+            style={ key === 0 ? { marginTop: 35 } : {} }
+            bottomDivider
+            chevron
+            onPress={() => {
+                navigation.navigate('ActivityDetails', {
+                    navigation: navigation,
+                    activity: activity,
+                });
+            }}
+        />
     );
 }
