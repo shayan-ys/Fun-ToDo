@@ -3,39 +3,33 @@ import ActivityListItem from "../ActivityListItem/ActivityListItem";
 import {Text, View} from "react-native";
 import Storage from "../../storage/Storage";
 import {Button} from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Octicons';
-import Filter from "../Filter/Filter";
-import {styles} from "../../env";
+import FiltersBar from "../Filter/FiltersBar";
+import {defaultFilterState} from "../../env";
 
 export default function ActivityList({ navigation }) {
     React.useEffect(() => {
         return navigation.addListener('focus', () => {
             Storage.getAll().then((storage) => {
-                setList(Object.values(storage));
+                setActivities(Object.values(storage));
             });
         });
     }, [navigation]);
 
-    const [list, setList] = React.useState([]);
+    const [activities, setActivities] = React.useState([]);
+    const [filters, setFilters] = React.useState(defaultFilterState);
+    const setFilterMiddle = (newValue) => {
+        setFilters(newValue);
+        // console.log(filters);
+    };
 
     return (
         <View>
             {/*Filters*/}
-            <View style={styles.filtersContainer}>
-                <Button
-                    buttonStyle={styles.filterButton}
-                    icon={<Icon
-                        name='settings'
-                        size={17}
-                        style={{transform: [{ rotate: '90deg' }]}}
-                    />}
-                />
-                <Filter title="Available Now" defaultValue={false} />
-            </View>
+            <FiltersBar onChange={setFilterMiddle} />
 
             {/*Activities*/}
             <View style={{ marginTop: 35 }}>
-            {list.map((activity, i) => <ActivityListItem activity={activity} navigation={navigation} key={i} />)}
+            {activities.map((activity, i) => <ActivityListItem activity={activity} navigation={navigation} key={i} />)}
             </View>
 
             {/*Add Button*/}

@@ -67,3 +67,20 @@ export const styles = StyleSheet.create({
     buttonUnchecked: {...checkBoxUnchecked, ...buttonAsCheckBox},
     buttonUncheckedText: {...checkBoxUncheckedText, ...buttonAsCheckBoxText},
 });
+
+export enum FilterName {
+    AvailableNow = 'AvailableNow',
+    ThisSeason   = 'ThisSeason',
+    ThisDay      = 'ThisDay',
+    PriceUnder   = 'PriceUnder',
+}
+
+export const MIN_PRICE = 1;
+export const MAX_PRICE = 4;
+
+export const defaultFilterState = {
+        [FilterName.AvailableNow as string]: false,
+        [FilterName.ThisSeason   as string]: false,
+        [FilterName.ThisDay      as string]: false,
+        [FilterName.PriceUnder   as string]: 2,
+    };
