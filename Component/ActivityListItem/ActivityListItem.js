@@ -7,7 +7,6 @@ export default function ActivityListItem({ navigation, key, activity }) {
             key={key}
             title={activity.title}
             leftIcon={{ name: 'flight-takeoff' }}
-            style={ key === 0 ? { marginTop: 35 } : {} }
             bottomDivider
             chevron
             onPress={() => {
