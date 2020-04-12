@@ -58,7 +58,10 @@ export const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderBottomWidth: 1,
         borderBottomColor: '#CCCCCC',
-        padding: 7
+        paddingRight: 7,
+        paddingLeft: 7,
+        paddingTop: 10,
+        paddingBottom: 12,
     },
     filterButton: {...checkBoxUnchecked, borderWidth: 1, paddingTop: 9, paddingRight: 10, paddingLeft: 10},
 

@@ -2,7 +2,7 @@ import {FilterName, defaultFilterState, MAX_PRICE, styles} from "../../env";
 import {Button} from "react-native-elements";
 import Icon from "react-native-vector-icons/Octicons";
 import Filter from "./Filter";
-import {View} from "react-native";
+import {ScrollView, Text, View} from "react-native";
 import React from "react";
 
 export default function FiltersBar({ onChange }) {
@@ -21,7 +21,8 @@ export default function FiltersBar({ onChange }) {
     const day = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][ (new Date()).getDay() ];
 
     return (
-        <View style={styles.filtersContainer}>
+        <ScrollView horizontal={true} style={styles.filtersContainer}>
+            {/*<Text>blah blah</Text>*/}
             <Button
                 buttonStyle={styles.filterButton}
                 icon={<Icon
@@ -34,6 +35,6 @@ export default function FiltersBar({ onChange }) {
             <Filter title="This Season"   defaultValue={defaultFilterState[FilterName.ThisSeason]}   onChange={updated.bind(null, FilterName.ThisSeason)} />
             <Filter title={"On " + day}   defaultValue={defaultFilterState[FilterName.ThisDay]}      onChange={updated.bind(null, FilterName.ThisDay)} />
             <Filter title="Under $$"      defaultValue={defaultFilterState[FilterName.PriceUnder]}   onChange={priceUnderDefault} />
-        </View>
+        </ScrollView>
     );
 }

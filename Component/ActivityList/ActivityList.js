@@ -1,6 +1,6 @@
 import React from 'react';
 import ActivityListItem from "../ActivityListItem/ActivityListItem";
-import {Text, View} from "react-native";
+import {SafeAreaView, ScrollView, Text, View} from "react-native";
 import Storage from "../../storage/Storage";
 import {Button} from 'react-native-elements';
 import FiltersBar from "../Filter/FiltersBar";
@@ -23,13 +23,15 @@ export default function ActivityList({ navigation }) {
     };
 
     return (
-        <View>
+        <View style={{flex: 1, flexDirection: 'column'}}>
             {/*Filters*/}
-            <FiltersBar onChange={setFilterMiddle} />
+            <SafeAreaView style={{height: 63}}>
+                <FiltersBar onChange={setFilterMiddle} />
+            </SafeAreaView>
 
             {/*Activities*/}
             <View style={{ marginTop: 35 }}>
-            {activities.map((activity, i) => <ActivityListItem activity={activity} navigation={navigation} key={i} />)}
+                {activities.map((activity, i) => <ActivityListItem index={i} activity={activity} navigation={navigation} />)}
             </View>
 
             {/*Add Button*/}
