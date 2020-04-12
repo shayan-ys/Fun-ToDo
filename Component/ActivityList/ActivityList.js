@@ -5,6 +5,7 @@ import Storage from "../../storage/Storage";
 import {Button} from 'react-native-elements';
 import FiltersBar from "../Filter/FiltersBar";
 import {defaultFilterState} from "../../env";
+import { useHeaderHeight, Header } from "@react-navigation/stack";
 
 export default function ActivityList({ navigation }) {
     React.useEffect(() => {
@@ -22,11 +23,21 @@ export default function ActivityList({ navigation }) {
         // console.log(filters);
     };
 
+    let headerHeight;
+    try {
+        headerHeight = parseInt(useHeaderHeight().toString());
+    } catch (e) {}
+    if (!headerHeight) {
+        try {
+            headerHeight = Header.HEIGHT;
+        } catch (e) {}
+    }
+
     return (
         <View style={{flex: 1, flexDirection: 'column'}}>
             {/*Filters*/}
             <SafeAreaView style={{height: 63}}>
-                <FiltersBar onChange={setFilterMiddle} />
+                <FiltersBar onChange={setFilterMiddle} headerHeight={headerHeight} />
             </SafeAreaView>
 
             {/*Activities*/}

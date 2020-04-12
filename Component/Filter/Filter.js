@@ -1,14 +1,14 @@
 import React from 'react';
 import { View } from "react-native";
 import { Button } from 'react-native-elements';
-import {styles} from "../../env";
+import {defaultFilterState, FilterName, styles} from "../../env";
 
-export default function Filter({ title, defaultValue = false, onChange }) {
-    const [checked, setChecked] = React.useState(defaultValue);
+export default function Filter({ display, name, onChange }) {
+    const [checked, setChecked] = React.useState(defaultFilterState[name]);
 
     const updated = (newValue) => {
         setChecked(newValue);
-        onChange(newValue);
+        onChange.bind(null, name)(newValue);
     };
 
     return (
@@ -16,7 +16,7 @@ export default function Filter({ title, defaultValue = false, onChange }) {
             <Button
                 buttonStyle={checked ? styles.buttonChecked : styles.buttonUnchecked}
                 titleStyle={checked ? styles.buttonCheckedText : styles.buttonUncheckedText}
-                title={title}
+                title={display}
                 onPress={() => updated(!checked)}
             />
         </View>
