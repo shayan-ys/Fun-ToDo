@@ -1,8 +1,8 @@
 import React from "react";
 import { ScrollView } from "react-native";
-import {Button, ButtonGroup, Text} from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import Icon from "react-native-vector-icons/Octicons";
-import {FilterName, defaultFilterState, MAX_PRICE, styles, dayOfWeek, MIN_PRICE} from "../../env";
+import { FilterName, defaultFilterState, styles, dayOfWeek, MIN_PRICE } from "../../env";
 import Filter from "./Filter";
 import ExtraFilters from "./ExtraFilters";
 
@@ -44,6 +44,12 @@ export default class FiltersBar extends React.Component {
         })
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState !== this.state) {
+            this.onChange(this.state);
+        }
+    }
+
     render() {
         const day = dayOfWeek;
         const FN  = FilterName;
@@ -62,7 +68,7 @@ export default class FiltersBar extends React.Component {
                     />
                     <Filter title="This Season" onChange={() => {this.setState({[FN.AllSeasons]: !this.state[FN.AllSeasons]})}} checked={!this.state[FN.AllSeasons]}/>
                     <Filter title={"On " + day} onChange={() => {this.setState({[FN.AllWeek]: !this.state[FN.AllWeek]})}} checked={!this.state[FN.AllWeek]}/>
-                    <Filter title="Economy $"    onChange={this.togglePrice} checked={this.state[FN.PriceUnder] <= MIN_PRICE}/>
+                    <Filter title="Economy $"   onChange={this.togglePrice} checked={this.state[FN.PriceUnder] <= MIN_PRICE}/>
                     <Button
                         title='More Filters'
                         type='clear'

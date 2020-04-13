@@ -1,11 +1,11 @@
 import React from 'react';
-import ActivityListItem from "../ActivityListItem/ActivityListItem";
-import {SafeAreaView, ScrollView, Text, View} from "react-native";
+import {SafeAreaView, Text, View} from "react-native";
 import Storage from "../../storage/Storage";
 import {Button} from 'react-native-elements';
 import FiltersBar from "../Filter/FiltersBar";
-import {defaultFilterState} from "../../env";
+import { defaultFilterState } from "../../env";
 import { useHeaderHeight, Header } from "@react-navigation/stack";
+import FilteredActivityList from "./FilteredActivityList";
 
 export default function ActivityList({ navigation }) {
     React.useEffect(() => {
@@ -17,12 +17,9 @@ export default function ActivityList({ navigation }) {
     }, [navigation]);
 
     const [activities, setActivities] = React.useState([]);
-    const [filters, setFilters] = React.useState(defaultFilterState);
-    const setFilterMiddle = (newValue) => {
-        setFilters(newValue);
-        // console.log(filters);
-    };
+    const [filters, setFilters] = React.useState({...defaultFilterState});
 
+    // status bar height
     let headerHeight;
     try {
         headerHeight = parseInt(useHeaderHeight().toString());
@@ -37,12 +34,12 @@ export default function ActivityList({ navigation }) {
         <View style={{flex: 1, flexDirection: 'column'}}>
             {/*Filters*/}
             <SafeAreaView style={{height: 63}}>
-                <FiltersBar onChange={setFilterMiddle} headerHeight={headerHeight} />
+                <FiltersBar onChange={setFilters} headerHeight={headerHeight} />
             </SafeAreaView>
 
             {/*Activities*/}
             <View style={{ marginTop: 35 }}>
-                {activities.map((activity, i) => <ActivityListItem index={i} activity={activity} navigation={navigation} />)}
+                <FilteredActivityList activities={activities} filters={filters} navigation={navigation} />
             </View>
 
             {/*Add Button*/}

@@ -1,8 +1,7 @@
 import React from "react";
 import {Dimensions, SafeAreaView, ScrollView, View} from "react-native";
 import {Button, ButtonGroup, Overlay, Text} from "react-native-elements";
-import {dayOfWeek, defaultFilterState, FilterName, hourOfDay, MIN_PRICE, partOfDay, styles} from "../../env";
-import TimeOfDay from "../../Models/TimeOfDay";
+import {currentSeason, dayOfWeek, defaultFilterState, FilterName, MIN_PRICE, partOfDay, styles} from "../../env";
 
 export default class ExtraFilters extends React.Component {
     props;
@@ -17,7 +16,6 @@ export default class ExtraFilters extends React.Component {
             allWeek:    props.allWeek,
             allDay:     props.allDay,
         };
-        // this.setStateFromProps();
         this.closeModal = this.closeModal.bind(this);
         this.applyModal = this.applyModal.bind(this);
     }
@@ -104,7 +102,7 @@ export default class ExtraFilters extends React.Component {
                             {/*This Season*/}
                             <Text style={styles.formLabel}>Season</Text>
                             <ButtonGroup
-                                buttons={['Only this season', 'Any Season']}
+                                buttons={['Only ' + currentSeason + 's', 'Any Season']}
                                 selectedIndex={this.state.allSeasons}
                                 onPress={index => {this.setState({allSeasons: index})}}
                             />
