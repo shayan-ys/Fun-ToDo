@@ -17,6 +17,9 @@ class TimeOfDay extends SortedListEnum {
             TimeOfDay.values.night.toString(),
         ];
     }
+    public static getIndex(name: TimeOfDayValues): number {
+        return TimeOfDay.list.indexOf(name.toString());
+    }
 }
 
 export default TimeOfDay;

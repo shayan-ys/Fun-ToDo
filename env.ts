@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import {getPartOfDay} from "./helper";
 
 export enum Screens {
     ActivityList    = "ActivityList",
@@ -73,17 +74,24 @@ export const styles = StyleSheet.create({
 
 export enum FilterName {
     AvailableNow = 'AvailableNow',
-    ThisSeason   = 'ThisSeason',
-    ThisDay      = 'ThisDay',
     PriceUnder   = 'PriceUnder',
+    AllSeasons   = 'AllSeasons',
+    AllWeek      = 'AllWeek',
+    AllDay       = 'AllDay',
 }
 
 export const MIN_PRICE = 1;
+export const DEFAULT_PRICE = 2;
 export const MAX_PRICE = 4;
 
 export const defaultFilterState = {
-        [FilterName.AvailableNow as string]: false,
-        [FilterName.ThisSeason   as string]: false,
-        [FilterName.ThisDay      as string]: false,
-        [FilterName.PriceUnder   as string]: 2,
-    };
+    [FilterName.AvailableNow as string]: false,
+    [FilterName.PriceUnder   as string]: DEFAULT_PRICE,
+    [FilterName.AllSeasons   as string]: false,
+    [FilterName.AllWeek      as string]: true,
+    [FilterName.AllDay       as string]: true,
+};
+
+export const dayOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][ (new Date()).getDay() ];
+export const hourOfDay = (new Date()).getHours();
+export const partOfDay = getPartOfDay(hourOfDay);

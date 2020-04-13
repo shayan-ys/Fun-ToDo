@@ -15,29 +15,17 @@ class ActivityDetails extends React.Component {
         super(props);
 
         let activity = null;
-
         try {
             activity = props.route.params.activity;
         } catch (e) {}
-
-        if (!activity) {
-            activity = new Activity();
-        }
+        activity = activity || new Activity();
 
         let seasons = {};
-        Season.list.map((season) => {
-            seasons[season] = activity.seasons[season];
-        });
-
         let times = {};
-        TimeOfDay.list.map((time) => {
-            times[time] = activity.timesOfDay[time];
-        });
-
         let days = {};
-        DayOfWeek.list.map((day) => {
-            days[day] = activity.daysOfWeek[day];
-        });
+        Season.list.map((season)  => { seasons[season] = activity.seasons[season]  });
+        TimeOfDay.list.map((time) => { times[time]     = activity.timesOfDay[time] });
+        DayOfWeek.list.map((day)  => { days[day]       = activity.daysOfWeek[day]  });
 
         this.state = {...seasons, ...times, ...days, activity: activity, loading: false};
 
@@ -61,17 +49,9 @@ class ActivityDetails extends React.Component {
     updateActivityPreSave() {
         let activity = this.state.activity;
 
-        Season.list.map((season) => {
-            activity.seasons[season] = this.state[season];
-        });
-
-        TimeOfDay.list.map((time) => {
-            activity.timesOfDay[time] = this.state[time];
-        });
-
-        DayOfWeek.list.map((day) => {
-            activity.daysOfWeek[day] = this.state[day];
-        });
+        Season.list.map((season)  => {activity.seasons[season]  = this.state[season]});
+        TimeOfDay.list.map((time) => {activity.timesOfDay[time] = this.state[time]});
+        DayOfWeek.list.map((day)  => {activity.daysOfWeek[day]  = this.state[day]});
 
         this.setState({ activity: activity });
     }
@@ -126,8 +106,8 @@ class ActivityDetails extends React.Component {
                     {/*price*/}
                     <Text style={styles.formLabel}>Price</Text>
                     <ButtonGroup
-                        onPress={index => this.setActivity({ price: index })}
-                        selectedIndex={this.state.activity.price}
+                        onPress={index => this.setActivity({ price: index + 1 })}
+                        selectedIndex={ this.state.activity.price - 1 }
                         buttons={['$', '$$', '$$$', '$$$$']}
                     />
 

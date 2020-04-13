@@ -1,37 +1,53 @@
 import React from "react";
-import { ScrollView, View, Dimensions } from "react-native";
-import { Overlay, Button, Text } from 'react-native-elements';
+import { ScrollView } from "react-native";
+import {Button, ButtonGroup, Text} from 'react-native-elements';
 import Icon from "react-native-vector-icons/Octicons";
-import { FilterName, defaultFilterState, MAX_PRICE, styles } from "../../env";
+import {FilterName, defaultFilterState, MAX_PRICE, styles, dayOfWeek, MIN_PRICE} from "../../env";
 import Filter from "./Filter";
+import ExtraFilters from "./ExtraFilters";
 
 
 export default class FiltersBar extends React.Component {
     onChange;
     headerHeight;
-    static day = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][ (new Date()).getDay() ];
+    static ThisSeason = 'ThisSeason';
+    static ThisDay    = 'ThisDay';
 
     constructor(props) {
         super(props);
 
         this.onChange = props.onChange;
         this.headerHeight = props.headerHeight ? props.headerHeight : 140;
-        this.state = {...defaultFilterState, extraFiltersVisible: true};
+        this.state = {
+            ...defaultFilterState,
+            extraFiltersVisible: true,
+        };
 
-        this.updated = this.updated.bind(this);
+        this.togglePrice = this.togglePrice.bind(this);
+        this.saveExtra = this.saveExtra.bind(this);
     }
 
-    updated(key, newValue) {
-        this.setState({ [key]: newValue });
-        this.onChange(this.state);
-    };
+    saveExtra(newState) {
+        this.setState({
+            ...this.state,
+            ...newState,
+            extraFiltersVisible: false,
+        });
+    }
 
-    priceUnderDefault(key, newValue) {
-        this.setState({ [FilterName.PriceUnder]: newValue ? defaultFilterState[FilterName.PriceUnder] : MAX_PRICE });
-        this.onChange(this.state);
-    };
+    togglePrice() {
+        this.setState({
+            [FilterName.PriceUnder]:
+                this.state[FilterName.PriceUnder] > MIN_PRICE
+                    ? MIN_PRICE
+                    : defaultFilterState[FilterName.PriceUnder]
+        })
+    }
 
     render() {
+        const day = dayOfWeek;
+        const FN  = FilterName;
+
         return (
             <>
                 <ScrollView horizontal={true} style={styles.filtersContainer}>
@@ -44,40 +60,26 @@ export default class FiltersBar extends React.Component {
                         />}
                         onPress={() => {this.setState({extraFiltersVisible: true})}}
                     />
-                    <Filter display="Available Now" name={FilterName.AvailableNow} onChange={this.updated}/>
-                    <Filter display="This Season" name={FilterName.ThisSeason} onChange={this.updated}/>
-                    <Filter display={"On " + FiltersBar.day} name={FilterName.ThisDay} onChange={this.updated}/>
-                    <Filter display="Under $$" name={FilterName.PriceUnder} onChange={this.priceUnderDefault}/>
+                    <Filter title="This Season" onChange={() => {this.setState({[FN.AllSeasons]: !this.state[FN.AllSeasons]})}} checked={!this.state[FN.AllSeasons]}/>
+                    <Filter title={"On " + day} onChange={() => {this.setState({[FN.AllWeek]: !this.state[FN.AllWeek]})}} checked={!this.state[FN.AllWeek]}/>
+                    <Filter title="Economy $"    onChange={this.togglePrice} checked={this.state[FN.PriceUnder] <= MIN_PRICE}/>
+                    <Button
+                        title='More Filters'
+                        type='clear'
+                        onPress={() => {this.setState({extraFiltersVisible: true})}}
+                    />
                 </ScrollView>
 
-                <Overlay
-                    isVisible={this.state.extraFiltersVisible}
-                    fullScreen={false}
-                    width={Dimensions.get('window').width}
-                    height={Dimensions.get('window').height - this.headerHeight}
-                    animationType='slide'
-                    statusBarTranslucent={false}
-                    windowBackgroundColor='rgba(0,0,0,0.2)'
-                    transparent={true}
-                >
-                    <View style={{ flex: 1, flexDirection: 'column' }}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Button
-                                icon={{
-                                    name: "close",
-                                    size: 27,
-                                    color: "black"
-                                }}
-                                buttonStyle={{ backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: '50%', paddingTop: 8, paddingRight: 3, paddingBottom: 8, paddingLeft: 3 }}
-                                onPress={() => {this.setState({extraFiltersVisible: false})}}
-                            />
-                        </View>
-                        <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Filters</Text>
-                            <Text>Hello from Overlay!</Text>
-                        </View>
-                    </View>
-                </Overlay>
+                <ExtraFilters
+                    visible={this.state.extraFiltersVisible}
+                    headerHeight={this.headerHeight}
+                    closeTrigger={() => {this.setState({extraFiltersVisible: false})}}
+                    priceIsMin={this.state[FN.PriceUnder] <= MIN_PRICE}
+                    allDay={this.state[FN.AllDay] ? 1 : 0}
+                    allWeek={this.state[FN.AllWeek] ? 1 : 0}
+                    allSeasons={this.state[FN.AllSeasons] ? 1 : 0}
+                    onSave={this.saveExtra}
+                />
             </>
         );
     }
