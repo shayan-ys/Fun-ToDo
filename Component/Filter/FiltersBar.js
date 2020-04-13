@@ -20,7 +20,7 @@ export default class FiltersBar extends React.Component {
         this.headerHeight = props.headerHeight ? props.headerHeight : 140;
         this.state = {
             ...defaultFilterState,
-            extraFiltersVisible: true,
+            extraFiltersVisible: false,
         };
 
         this.togglePrice = this.togglePrice.bind(this);

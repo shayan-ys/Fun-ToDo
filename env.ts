@@ -86,8 +86,8 @@ export const MAX_PRICE = 4;
 
 export const defaultFilterState = {
     // [FilterName.AvailableNow as string]: false,
-    [FilterName.PriceUnder   as string]: DEFAULT_PRICE,
-    [FilterName.AllSeasons   as string]: false,
+    [FilterName.PriceUnder   as string]: MAX_PRICE,
+    [FilterName.AllSeasons   as string]: true,
     [FilterName.AllWeek      as string]: true,
     [FilterName.AllDay       as string]: true,
 };

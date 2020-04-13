@@ -1,11 +1,12 @@
 import React from 'react';
 import {SafeAreaView, Text, View} from "react-native";
 import Storage from "../../storage/Storage";
-import {Button} from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import FiltersBar from "../Filter/FiltersBar";
 import { defaultFilterState } from "../../env";
 import { useHeaderHeight, Header } from "@react-navigation/stack";
 import FilteredActivityList from "./FilteredActivityList";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
 export default function ActivityList({ navigation }) {
     React.useEffect(() => {
@@ -34,12 +35,12 @@ export default function ActivityList({ navigation }) {
         <View style={{flex: 1, flexDirection: 'column'}}>
             {/*Filters*/}
             <SafeAreaView style={{height: 63}}>
-                <FiltersBar onChange={setFilters} headerHeight={headerHeight} />
+                <FiltersBar filters={filters} onChange={setFilters} headerHeight={headerHeight} />
             </SafeAreaView>
 
             {/*Activities*/}
             <View style={{ marginTop: 35 }}>
-                <FilteredActivityList activities={activities} filters={filters} navigation={navigation} />
+                <FilteredActivityList activities={activities} filters={filters} navigation={navigation} resetFilter={() => {}} />
             </View>
 
             {/*Add Button*/}
