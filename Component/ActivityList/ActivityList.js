@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, Text, View} from "react-native";
+import {SafeAreaView, ScrollView, Text, View} from "react-native";
 import Storage from "../../storage/Storage";
 import { Button } from 'react-native-elements';
 import FiltersBar from "../Filter/FiltersBar";
@@ -38,21 +38,23 @@ export default function ActivityList({ navigation }) {
             </SafeAreaView>
 
             {/*Activities*/}
-            <View style={{ marginTop: 35 }}>
-                <FilteredActivityList activities={activities} filters={filters} navigation={navigation} resetFilter={() => {setFilters({...defaultFilterState})}} />
-            </View>
+            <SafeAreaView style={{ marginTop: 3, flex: 1 }}>
+                <ScrollView style={{ paddingTop: 17 }}>
+                    <FilteredActivityList activities={activities} filters={filters} navigation={navigation} resetFilter={() => {setFilters({...defaultFilterState})}} />
+                </ScrollView>
+            </SafeAreaView>
 
             {/*Add Button*/}
-            <Text style={{ marginTop: 35 }}></Text>
-            <Button
-                icon={{ name: 'add', color: 'white' }}
-                raised
-                title="Add"
-                onPress={() => {
-                    /* 1. Navigate to the Details route with params */
-                    navigation.navigate('ActivityDetails');
-                }}
-            />
+            <View style={{ marginTop: 7, paddingBottom: 13 }}>
+                <Button
+                    icon={{ name: 'add', color: 'white' }}
+                    raised
+                    title="Add"
+                    onPress={() => {
+                        navigation.navigate('ActivityDetails');
+                    }}
+                />
+            </View>
         </View>
     );
 }

@@ -9,6 +9,7 @@ export default function ActivityListItem({ navigation, index, activity }) {
             // leftIcon={{ name: 'flight-takeoff' }}
             bottomDivider
             chevron
+            rightTitle={'$'.repeat(activity.price)}
             onPress={() => {
                 navigation.navigate('ActivityDetails', {
                     activity: JSON.stringify(activity),

@@ -1,12 +1,13 @@
 import Season from './Season';
 import TimeOfDay from "./TimeOfDay";
 import DayOfWeek from "./DayOfWeek";
+import {DEFAULT_PRICE} from "../env";
 
 
 class Activity {
     public id   : number = null;
     public title: string = '';
-    public price: number = 0;
+    public price: number = DEFAULT_PRICE;
     public note : string = '';
     public seasons   : {[key: string]: boolean} = {};
     public timesOfDay: {[key: string]: boolean} = {};
