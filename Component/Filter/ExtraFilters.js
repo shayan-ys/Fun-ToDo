@@ -130,8 +130,8 @@ export default class ExtraFilters extends React.Component {
                             <Button
                                 title='Cancel'
                                 type="outline"
-                                buttonStyle={{ borderColor: '#F44336' }}
-                                titleStyle={{ color: '#F44336' }}
+                                buttonStyle={{ borderColor: '#B00020' }}
+                                titleStyle={{ color: '#B00020' }}
                                 onPress={this.closeModal}
                             />
                         </View>
