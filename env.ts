@@ -45,7 +45,6 @@ export const styles = StyleSheet.create({
     },
     scrollView: {
         marginHorizontal: 20,
-        paddingBottom: 35
     },
     formLabel: {
         paddingLeft: 10,

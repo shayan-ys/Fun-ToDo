@@ -13,7 +13,7 @@ async function setItem(obj, key) {
 
 async function getItem(key) {
     return await AsyncStorage.getItem(key, () => {})
-        .then((result) => {
+        .then(result => {
             if (result) {
                 try {
                     result = JSON.parse(result);
@@ -32,7 +32,7 @@ async function removeItem(key) {
 
 async function getNextId() {
     return await getItem(storageLastIdKey)
-        .then((result) => {
+        .then(result => {
             return result === null ? 0 : parseInt(result) + 1;
         });
 }
@@ -45,19 +45,18 @@ class Storage {
     static #objStorageKey = '@FunToDo:activities:json';
 
     static async getAll() {
-        return await getItem(this.#objStorageKey).then((result) => result ? result : {});
+        return await getItem(Storage.#objStorageKey).then((result) => result ? result : {});
     }
 
     static async add(item) {
-        return await this.getAll().then((storage) => {
+        return await Storage.getAll().then(async (storage) => {
             // check if item already exists
-            if (item.hasOwnProperty('id') && this.findInGivenStorage(item.id, storage)) {
-                console.error(`item.id ${item.id} already exists`);
-                return;
+            if (item.hasOwnProperty('id') && Storage.findInGivenStorage(item.id, storage)) {
+                throw Error(`Item ${item.id} already exists`);
             }
 
-            getNextId().then((id) => {
-                if (this.findInGivenStorage(id, storage)) {
+            return await getNextId().then(async (id) => {
+                if (Storage.findInGivenStorage(id, storage)) {
                     // problem, nextId already exists in the storage
                     console.warn(`nextId ${id} already exists in the storage`);
                     let arrayIds = Object.keys(storage).map((el) => parseInt(el));
@@ -65,8 +64,8 @@ class Storage {
                 }
                 storage[id] = {...item, id: id};
                 // save
-                setItem(storage, this.#objStorageKey).then(() => {
-                    saveLastId(id);
+                await setItem(storage, Storage.#objStorageKey).then(async () => {
+                    return await saveLastId(id);
                 });
             });
         });
@@ -77,31 +76,33 @@ class Storage {
     }
 
     static async getById(id) {
-        return await this.getAll().then((storage) => this.findInGivenStorage(id, storage));
+        return await Storage.getAll().then((storage) => Storage.findInGivenStorage(id, storage));
     }
 
     static async update(item) {
-        return await this.getAll().then((storage) => {
+        return await Storage.getAll().then(async (storage) => {
             // only if item exists in the storage
-            if (this.findInGivenStorage(item.id, storage)) {
+            if (Storage.findInGivenStorage(item.id, storage)) {
                 storage[item.id] = item;
-                setItem(storage, this.#objStorageKey);
+                return await setItem(storage, Storage.#objStorageKey);
             }
+            throw Error(`Item ${id} does not exist in the storage`);
         });
     }
 
     static async delete(id) {
-        return await this.getAll().then((storage) => {
-            if (this.findInGivenStorage(id, storage)) {
+        return await Storage.getAll().then(async (storage) => {
+            if (Storage.findInGivenStorage(id, storage)) {
                 delete storage[id];
-                setItem(storage, this.#objStorageKey);
+                return await setItem(storage, Storage.#objStorageKey);
             }
+            throw Error(`Item ${id} does not exist in the storage`);
         });
     }
 
     static async clearAll() {
-        return await removeItem(this.#objStorageKey).then(() => {
-            removeItem(storageLastIdKey);
+        return await removeItem(Storage.#objStorageKey).then(async () => {
+            return await removeItem(storageLastIdKey);
         });
     }
 }

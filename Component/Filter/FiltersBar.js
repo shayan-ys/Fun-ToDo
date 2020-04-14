@@ -67,16 +67,16 @@ export default class FiltersBar extends React.Component {
                     />
                 </ScrollView>
 
-                {/*<ExtraFilters*/}
-                {/*    visible     ={this.state.extraFiltersVisible}*/}
-                {/*    headerHeight={this.headerHeight}*/}
-                {/*    closeTrigger={() => {this.setState({ extraFiltersVisible: false })}}*/}
-                {/*    priceIsMin  ={this.props.filters[FN.PriceUnder] <= MIN_PRICE}*/}
-                {/*    allDay      ={this.props.filters[FN.AllDay]     ? 1 : 0}*/}
-                {/*    allWeek     ={this.props.filters[FN.AllWeek]    ? 1 : 0}*/}
-                {/*    allSeasons  ={this.props.filters[FN.AllSeasons] ? 1 : 0}*/}
-                {/*    onSave      ={this.saveExtra}*/}
-                {/*/>*/}
+                <ExtraFilters
+                    visible     ={this.state.extraFiltersVisible}
+                    headerHeight={this.headerHeight}
+                    closeTrigger={() => {this.setState({ extraFiltersVisible: false })}}
+                    priceIsMin  ={this.props.filters[FN.PriceUnder] <= MIN_PRICE}
+                    allDay      ={this.props.filters[FN.AllDay]     ? 1 : 0}
+                    allWeek     ={this.props.filters[FN.AllWeek]    ? 1 : 0}
+                    allSeasons  ={this.props.filters[FN.AllSeasons] ? 1 : 0}
+                    onSave      ={this.saveExtra}
+                />
             </>
         );
     }

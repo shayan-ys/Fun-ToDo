@@ -1,12 +1,13 @@
 import React from 'react';
-import { Text, SafeAreaView, ScrollView } from "react-native";
+import { Text, SafeAreaView, ScrollView, View, Alert } from "react-native";
+import { Input, Button, ButtonGroup } from 'react-native-elements';
+import { MIN_TITLE_LEN, styles } from "../../env";
 import Storage from '../../storage/Storage';
-import { Input, Button, ButtonGroup, CheckBox } from 'react-native-elements';
 import Activity from "../../Models/Activity.ts";
-import {MIN_TITLE_LEN, styles} from "../../env";
 import Season from "../../Models/Season";
 import TimeOfDay  from "../../Models/TimeOfDay";
 import DayOfWeek from "../../Models/DayOfWeek";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
 class ActivityDetails extends React.Component {
     navigation;
@@ -34,6 +35,7 @@ class ActivityDetails extends React.Component {
             ...days,
             activity: activity,
             loading: false,
+            deleteLoading: false,
             titleError: false,
         };
 
@@ -76,15 +78,33 @@ class ActivityDetails extends React.Component {
         this.updateActivityPreSave();
 
         if (this.state.activity.id === null) {
-            Storage.add(this.state.activity).then(() => {
-                this.setState({ loading: false });
-                this.navigation.popToTop();
-            });
+            Storage.add(this.state.activity)
+                .then(() => {
+                    this.setState({ loading: false });
+                    this.navigation.popToTop();
+                })
+                .catch((reason => {console.error(reason)}));
+
         } else {
-            Storage.update(this.state.activity).then(() => {
-                this.setState({ loading: false });
-                // this.navigation.popToTop();
-            });
+            Storage.update(this.state.activity)
+                .then(() => {
+                    this.setState({ loading: false });
+                    this.navigation.popToTop();
+                })
+                .catch((reason => {console.error(reason)}));
+        }
+    }
+
+    delete() {
+        if (this.state.activity.id !== null) {
+            this.setState({deleteLoading: true});
+
+            Storage.delete(this.state.activity.id)
+                .then(() => {
+                    this.setState(({ deleteLoading: false }));
+                    this.navigation.popToTop();
+                })
+                .catch(reason => {console.error(reason)});
         }
     }
 
@@ -98,6 +118,21 @@ class ActivityDetails extends React.Component {
             return true;
         }
     }
+
+    confirmDelete = () =>
+        Alert.alert(
+            "Are you sure?",
+            `Deleting "${this.state.activity.title}" activity`,
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel",
+                },
+                { text: "Delete", onPress: () => {this.delete()} }
+            ],
+            { cancelable: false }
+        );
+
 
     makeCheckBox(value, index) {
         return <Button
@@ -160,13 +195,30 @@ class ActivityDetails extends React.Component {
                         defaultValue={ this.state.activity.note }
                     />
 
-                    <Text style={{ marginTop: 35 }}></Text>
-                    <Button
-                        title="Save"
-                        raised
-                        loading={this.state.loading}
-                        onPress={this.save}
-                    />
+                    <View style={{ marginTop: 9, paddingBottom: 20 }}>
+                        {this.state.activity.id !== null &&
+                            <View>
+                                <Button
+                                    title="Delete"
+                                    type='outline'
+                                    loading={this.state.deleteLoading}
+                                    icon={<FontAwesome5Icon name='trash-alt' size={16} style={{color: '#B00020'}}/>}
+                                    buttonStyle={{borderColor: '#B00020', marginTop: 35}}
+                                    titleStyle={{color: '#B00020', marginLeft: 5, fontSize: 16}}
+                                    onPress={this.confirmDelete}
+                                />
+                            </View>
+                        }
+                        <View style={{ marginTop: 13 }}>
+                            <Button
+                                title="Save"
+                                raised
+                                titleStyle={{ fontWeight: 'bold', fontSize: 19 }}
+                                loading={this.state.loading}
+                                onPress={this.save}
+                            />
+                        </View>
+                    </View>
                 </ScrollView>
             </SafeAreaView>
         );

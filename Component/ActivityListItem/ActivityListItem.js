@@ -5,8 +5,8 @@ export default function ActivityListItem({ navigation, index, activity }) {
     return (
         <ListItem
             key={index}
-            title={activity.title + ' ' + index}
-            leftIcon={{ name: 'flight-takeoff' }}
+            title={activity.title}
+            // leftIcon={{ name: 'flight-takeoff' }}
             bottomDivider
             chevron
             onPress={() => {
