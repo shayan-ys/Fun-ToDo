@@ -8,7 +8,6 @@ import ExtraFilters from "./ExtraFilters";
 
 
 export default class FiltersBar extends React.Component {
-    onChange;
     headerHeight;
     static ThisSeason = 'ThisSeason';
     static ThisDay    = 'ThisDay';
@@ -16,38 +15,30 @@ export default class FiltersBar extends React.Component {
     constructor(props) {
         super(props);
 
-        this.onChange = props.onChange;
+        this.props = props;
         this.headerHeight = props.headerHeight ? props.headerHeight : 140;
-        this.state = {
-            ...defaultFilterState,
-            extraFiltersVisible: false,
-        };
+        this.state = { extraFiltersVisible: false };
 
         this.togglePrice = this.togglePrice.bind(this);
         this.saveExtra = this.saveExtra.bind(this);
+        this.update = this.update.bind(this);
+    }
+
+    update(changes) {
+        this.props.onChange({ ...this.props.filters, ...changes });
     }
 
     saveExtra(newState) {
-        this.setState({
-            ...this.state,
-            ...newState,
-            extraFiltersVisible: false,
-        });
+        this.setState({ extraFiltersVisible: false });
+        this.props.onChange({ ...this.props.filters, ...newState });
     }
 
     togglePrice() {
-        this.setState({
-            [FilterName.PriceUnder]:
-                this.state[FilterName.PriceUnder] > MIN_PRICE
-                    ? MIN_PRICE
-                    : defaultFilterState[FilterName.PriceUnder]
-        })
-    }
+        let priceUnder = this.props.filters[FilterName.PriceUnder] > MIN_PRICE
+            ? MIN_PRICE
+            : defaultFilterState[FilterName.PriceUnder];
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevState !== this.state) {
-            this.onChange(this.state);
-        }
+        this.props.onChange({ ...this.props.filters, [FilterName.PriceUnder]: priceUnder });
     }
 
     render() {
@@ -64,28 +55,28 @@ export default class FiltersBar extends React.Component {
                             size={17}
                             style={{transform: [{rotate: '90deg'}]}}
                         />}
-                        onPress={() => {this.setState({extraFiltersVisible: true})}}
+                        onPress={() => { this.setState({ extraFiltersVisible: true }) }}
                     />
-                    <Filter title="This Season" onChange={() => {this.setState({[FN.AllSeasons]: !this.state[FN.AllSeasons]})}} checked={!this.state[FN.AllSeasons]}/>
-                    <Filter title={"On " + day} onChange={() => {this.setState({[FN.AllWeek]: !this.state[FN.AllWeek]})}} checked={!this.state[FN.AllWeek]}/>
-                    <Filter title="Economy $"   onChange={this.togglePrice} checked={this.state[FN.PriceUnder] <= MIN_PRICE}/>
+                    <Filter title="This Season" onChange={() => {this.update({[FN.AllSeasons]: !this.props.filters[FN.AllSeasons]})}} checked={!this.props.filters[FN.AllSeasons]}/>
+                    <Filter title={"On " + day} onChange={() => {this.update({[FN.AllWeek]: !this.props.filters[FN.AllWeek]})}} checked={!this.props.filters[FN.AllWeek]}/>
+                    <Filter title="Economy $"   onChange={this.togglePrice} checked={this.props.filters[FN.PriceUnder] <= MIN_PRICE}/>
                     <Button
                         title='More Filters'
                         type='clear'
-                        onPress={() => {this.setState({extraFiltersVisible: true})}}
+                        onPress={() => {this.setState({ extraFiltersVisible: true })}}
                     />
                 </ScrollView>
 
-                <ExtraFilters
-                    visible={this.state.extraFiltersVisible}
-                    headerHeight={this.headerHeight}
-                    closeTrigger={() => {this.setState({extraFiltersVisible: false})}}
-                    priceIsMin={this.state[FN.PriceUnder] <= MIN_PRICE}
-                    allDay={this.state[FN.AllDay] ? 1 : 0}
-                    allWeek={this.state[FN.AllWeek] ? 1 : 0}
-                    allSeasons={this.state[FN.AllSeasons] ? 1 : 0}
-                    onSave={this.saveExtra}
-                />
+                {/*<ExtraFilters*/}
+                {/*    visible     ={this.state.extraFiltersVisible}*/}
+                {/*    headerHeight={this.headerHeight}*/}
+                {/*    closeTrigger={() => {this.setState({ extraFiltersVisible: false })}}*/}
+                {/*    priceIsMin  ={this.props.filters[FN.PriceUnder] <= MIN_PRICE}*/}
+                {/*    allDay      ={this.props.filters[FN.AllDay]     ? 1 : 0}*/}
+                {/*    allWeek     ={this.props.filters[FN.AllWeek]    ? 1 : 0}*/}
+                {/*    allSeasons  ={this.props.filters[FN.AllSeasons] ? 1 : 0}*/}
+                {/*    onSave      ={this.saveExtra}*/}
+                {/*/>*/}
             </>
         );
     }

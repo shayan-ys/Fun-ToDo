@@ -1,12 +1,11 @@
 import React from 'react';
 import {SafeAreaView, Text, View} from "react-native";
 import Storage from "../../storage/Storage";
-import { Button, Icon } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import FiltersBar from "../Filter/FiltersBar";
 import { defaultFilterState } from "../../env";
 import { useHeaderHeight, Header } from "@react-navigation/stack";
 import FilteredActivityList from "./FilteredActivityList";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
 export default function ActivityList({ navigation }) {
     React.useEffect(() => {
@@ -40,7 +39,7 @@ export default function ActivityList({ navigation }) {
 
             {/*Activities*/}
             <View style={{ marginTop: 35 }}>
-                <FilteredActivityList activities={activities} filters={filters} navigation={navigation} resetFilter={() => {}} />
+                <FilteredActivityList activities={activities} filters={filters} navigation={navigation} resetFilter={() => {setFilters({...defaultFilterState})}} />
             </View>
 
             {/*Add Button*/}
@@ -51,9 +50,7 @@ export default function ActivityList({ navigation }) {
                 title="Add"
                 onPress={() => {
                     /* 1. Navigate to the Details route with params */
-                    navigation.navigate('ActivityDetails', {
-                        navigation: navigation
-                    });
+                    navigation.navigate('ActivityDetails');
                 }}
             />
         </View>

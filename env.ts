@@ -9,23 +9,30 @@ export enum Screens {
 const checkBoxChecked = {
     backgroundColor: '#E3F2FD',
     borderColor: '#82B1FF',
-    borderRadius: 30
+    marginTop: 9,
+    borderWidth: 1,
+    borderRadius: 30,
 };
 const checkBoxCheckedText = {
-    color: '#1976D2'
+    color: '#1976D2',
+    fontSize: 15,
 };
 const checkBoxUnchecked = {
     backgroundColor: '#FFFFFF',
     borderColor: '#BDBDBD',
+    marginTop: 9,
+    borderWidth: 1,
     borderRadius: 30
 };
 const checkBoxUncheckedText = {
-    color: '#757575'
+    color: '#757575',
+    fontSize: 15,
 };
 
 const buttonAsCheckBox = {
     paddingRight: 20,
     paddingLeft: 20,
+    marginTop: 0,
     borderWidth: 1,
 };
 const buttonAsCheckBoxText = {
@@ -64,7 +71,7 @@ export const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 12,
     },
-    filterButton: {...checkBoxUnchecked, borderWidth: 1, paddingTop: 9, paddingRight: 10, paddingLeft: 10},
+    filterButton: {...checkBoxUnchecked, borderWidth: 1, paddingTop: 9, paddingRight: 10, paddingLeft: 10, marginTop: 0},
 
     buttonChecked: {...checkBoxChecked, ...buttonAsCheckBox},
     buttonCheckedText: {...checkBoxCheckedText, ...buttonAsCheckBoxText},
@@ -79,6 +86,8 @@ export enum FilterName {
     AllWeek      = 'AllWeek',
     AllDay       = 'AllDay',
 }
+
+export const MIN_TITLE_LEN = 3;
 
 export const MIN_PRICE = 1;
 export const DEFAULT_PRICE = 2;

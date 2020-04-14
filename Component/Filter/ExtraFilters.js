@@ -76,11 +76,10 @@ export default class ExtraFilters extends React.Component {
                             }}
                             buttonStyle={{
                                 backgroundColor: 'rgba(0,0,0,0.1)',
-                                borderRadius: '50%',
-                                paddingTop: 8,
-                                paddingRight: 3,
-                                paddingBottom: 8,
-                                paddingLeft: 3
+                                width: 44,
+                                height: 44,
+                                borderRadius: 22,
+                                padding: 0,
                             }}
                             onPress={this.closeModal}
                         />

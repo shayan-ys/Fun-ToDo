@@ -15,13 +15,24 @@ function FilterActivity(activity, filters) {
 export default function FilteredActivityList({ activities, filters, resetFilter, navigation }) {
 
     const filteredActivities = activities.filter((activity) => FilterActivity(activity, filters));
+    const filteredJSX = [...filteredActivities].map(
+        (activity, i) =>
+            <ActivityListItem
+                key={i}
+                index={i}
+                activity={activity}
+                navigation={navigation}
+            />
+    );
 
     const allActivitiesCount = activities.length;
     const filteredActivitiesCount = filteredActivities.length;
 
+
+
     return (
         <>
-            {filteredActivities.map((activity, i) => <ActivityListItem index={i} activity={activity} navigation={navigation} />)}
+            {filteredJSX}
 
             {/*Show All*/}
             {allActivitiesCount !== filteredActivitiesCount &&

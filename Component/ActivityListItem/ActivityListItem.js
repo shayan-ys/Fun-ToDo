@@ -5,14 +5,13 @@ export default function ActivityListItem({ navigation, index, activity }) {
     return (
         <ListItem
             key={index}
-            title={activity.title}
+            title={activity.title + ' ' + index}
             leftIcon={{ name: 'flight-takeoff' }}
             bottomDivider
             chevron
             onPress={() => {
                 navigation.navigate('ActivityDetails', {
-                    navigation: navigation,
-                    activity: activity,
+                    activity: JSON.stringify(activity),
                 });
             }}
         />
