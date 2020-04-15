@@ -6,6 +6,11 @@ export enum Screens {
     ActivityDetails = "ActivityDetails",
 }
 
+export enum Tabs {
+    About = "About",
+    Home  = "Home",
+}
+
 const checkBoxChecked = {
     backgroundColor: '#E3F2FD',
     borderColor: '#82B1FF',
@@ -76,6 +81,18 @@ export const styles = StyleSheet.create({
     buttonCheckedText: {...checkBoxCheckedText, ...buttonAsCheckBoxText},
     buttonUnchecked: {...checkBoxUnchecked, ...buttonAsCheckBox},
     buttonUncheckedText: {...checkBoxUncheckedText, ...buttonAsCheckBoxText},
+
+    aboutImage: {
+        marginBottom: 5,
+    },
+    aboutLabel: {
+        marginTop: 47,
+        color: '#757575',
+    },
+    aboutTitle: {
+        fontSize: 19,
+        fontWeight: 'bold',
+    }
 });
 
 export enum FilterName {
