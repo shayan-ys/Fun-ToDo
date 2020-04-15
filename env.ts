@@ -92,6 +92,12 @@ export const styles = StyleSheet.create({
     aboutTitle: {
         fontSize: 19,
         fontWeight: 'bold',
+    },
+    aboutURLButton: {
+        marginTop: 5,
+        borderRadius: 5,
+        width: 150,
+        height: 40,
     }
 });
 

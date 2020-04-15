@@ -2,17 +2,16 @@ import React, { useCallback } from "react";
 import { Image, SafeAreaView, ScrollView, Text, Dimensions, View, Linking, TouchableOpacity } from "react-native";
 import { SocialIcon, Button } from "react-native-elements";
 import { styles } from '../../env';
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
 export default function AboutTab() {
     const screenWidth = Dimensions.get('window').width;
 
-    const OpenURLButton = ({ url, children }) => {
+    const OpenURLButton = ({ url, children, style = {} }) => {
         const handlePress = useCallback(async () => {
             await Linking.openURL(url);
         }, [url]);
 
-        return <TouchableOpacity onPress={handlePress}>{children}</TouchableOpacity>;
+        return <TouchableOpacity style={style} onPress={handlePress}>{children}</TouchableOpacity>;
     };
 
     return (
@@ -25,20 +24,22 @@ export default function AboutTab() {
                             height: screenWidth / 4,
                             borderRadius: screenWidth / 8,
                             borderWidth: 4,
-                            borderColor: '#06a763',
+                            borderColor: '#06A763',
                         }]}
                         source={require('./profile.jpg')}
                     />
                     <Text style={styles.aboutLabel}>NAME</Text>
                     <Text style={styles.aboutTitle}>Shayan Ys</Text>
                     <Text style={styles.aboutLabel}>WEBSITE</Text>
-                    <OpenURLButton url='https://shayanys.com'>
-                        <Button
-                            type='solid'
-                            title='shayanys.com'
-                            titleStyle={{ color: 'white' }}
-                            buttonStyle={{ backgroundColor: '#06a763', marginTop: 5, width: 150, height: 50 }}
-                        />
+                    <OpenURLButton
+                        url='https://shayanys.com'
+                        style={[styles.aboutURLButton, {backgroundColor: '#06A763', paddingTop: 7}]}
+                    >
+                        <Text style={{
+                            color: 'white',
+                            textAlign: 'center',
+                            fontSize: 18,
+                        }}>shayanys.com</Text>
                     </OpenURLButton>
                     <Text style={styles.aboutLabel}>FOLLOW ME ON</Text>
                     <View style={{ flex: 1, flexDirection: "row" }}>
@@ -56,14 +57,18 @@ export default function AboutTab() {
                         </OpenURLButton>
                     </View>
                     <Text style={styles.aboutLabel}>CONTRIBUTE TO THE PROJECT</Text>
-                    <OpenURLButton url='https://github.com/shayan-ys/Fun-ToDo'>
-                        <Button
-                            type='solid'
-                            title='GitHub'
-                            icon={<SocialIcon type='github' style={{ width: 21, height: 21 }} />}
-                            titleStyle={{ color: 'white' }}
-                            buttonStyle={{ backgroundColor: '#212121', marginTop: 13, width: 150, height: 50, paddingTop: 5, paddingRight: 13 }}
-                        />
+                    <OpenURLButton
+                        url='https://github.com/shayan-ys/Fun-ToDo'
+                        style={[styles.aboutURLButton, {backgroundColor: '#212121', paddingTop: 2, paddingRight: 15}]}
+                    >
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                            <SocialIcon type='github' style={{ width: 21, height: 21 }} />
+                            <Text style={{
+                                color: 'white',
+                                textAlign: 'center',
+                                fontSize: 18,
+                            }}>GitHub</Text>
+                        </View>
                     </OpenURLButton>
                 </View>
             </ScrollView>
