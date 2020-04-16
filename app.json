@@ -1,19 +1,19 @@
 {
   "expo": {
-    "name": "FunToDo",
-    "slug": "FunToDo",
+    "name": "Fun Planner",
+    "slug": "FunPlanner",
+    "sdkVersion": "37.0.3",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
-    "version": "1.0.0",
+    "version": "0.9.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FFFFFF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -22,7 +22,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.shayanys.funplanner"
+    },
+    "android": {
+      "package": "com.shayanys.funplanner"
     }
   }
 }
