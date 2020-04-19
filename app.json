@@ -25,7 +25,8 @@
       "bundleIdentifier": "com.shayanys.funplanner"
     },
     "android": {
-      "package": "com.shayanys.funplanner"
+      "package": "com.shayanys.funplanner",
+      "permissions": []
     },
     "description": "Ever wondering what to do tonight? Forget how to remember every cool activities throughout the year?\nFun Planner is here to help!\nCreate an activity, whenever it comes to your mind, e.g. Skiing.\nModify options like price range, e.g. $$, Seasons: Winter only, Weekends, any additional notes you want,..\nHit save!\nLater when the right season comes, you can filter your activities based on seasons, days of the week and price range.\nFind out what to do tonight, never been easier!\n\nCredit to logo design: Freepik at https://www.flaticon.com/authors/freepik\n\nDeveloped by Shayan Ys: https://shayanys.com - April 2020",
     "githubUrl": "https://github.com/shayan-ys/Fun-ToDo"
