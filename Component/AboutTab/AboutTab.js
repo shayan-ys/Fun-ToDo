@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { Image, SafeAreaView, ScrollView, Text, Dimensions, View, Linking, TouchableOpacity } from "react-native";
-import { SocialIcon, Button } from "react-native-elements";
+import { SocialIcon } from "react-native-elements";
 import { styles } from '../../env';
 
 export default function AboutTab() {

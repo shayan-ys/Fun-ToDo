@@ -1,8 +1,8 @@
 import React from "react";
-import { ScrollView, Platform } from "react-native";
+import {ScrollView, Platform, Dimensions} from "react-native";
 import { Button } from 'react-native-elements';
 import Icon from "react-native-vector-icons/Octicons";
-import { FilterName, defaultFilterState, styles, dayOfWeek, MIN_PRICE } from "../../env";
+import { FilterName, defaultFilterState, styles, dayOfWeek, MIN_PRICE, partOfDay } from "../../env";
 import Filter from "./Filter";
 import ExtraFilters from "./ExtraFilters";
 
@@ -11,26 +11,39 @@ export default class FiltersBar extends React.Component {
     headerHeight;
     static ThisSeason = 'ThisSeason';
     static ThisDay    = 'ThisDay';
+    showTimeOfDayFilter = false;
 
     constructor(props) {
         super(props);
 
         this.props = props;
         this.headerHeight = props.headerHeight ? props.headerHeight : 140;
-        this.state = { extraFiltersVisible: false };
+        this.showTimeOfDayFilter = Dimensions.get('window').width > 675;
+        this.state = { extraFiltersVisible: false, availableNow: false };
 
         this.togglePrice = this.togglePrice.bind(this);
         this.saveExtra = this.saveExtra.bind(this);
         this.update = this.update.bind(this);
+        this.toggleAvailableNow = this.toggleAvailableNow.bind(this);
     }
 
-    update(changes) {
-        this.props.onChange({ ...this.props.filters, ...changes });
+    update(changes, updateAvailableNow = true) {
+        let newFilterState = { ...this.props.filters, ...changes };
+        this.props.onChange(newFilterState);
+
+        if (updateAvailableNow) {
+            const FN = FilterName;
+            if (!newFilterState[FN.AllSeasons] && !newFilterState[FN.AllWeek] && !newFilterState[FN.AllDay]) {
+                this.setState({availableNow: true});
+            } else {
+                this.setState({availableNow: false});
+            }
+        }
     }
 
     saveExtra(newState) {
         this.setState({ extraFiltersVisible: false });
-        this.props.onChange({ ...this.props.filters, ...newState });
+        this.update(newState);
     }
 
     togglePrice() {
@@ -39,6 +52,18 @@ export default class FiltersBar extends React.Component {
             : defaultFilterState[FilterName.PriceUnder];
 
         this.props.onChange({ ...this.props.filters, [FilterName.PriceUnder]: priceUnder });
+    }
+
+    toggleAvailableNow() {
+        const FN  = FilterName;
+
+        if (this.state.availableNow) {
+            this.setState({ availableNow: false });
+            this.update({ [FN.AllSeasons]: true, [FN.AllWeek]: true, [FN.AllDay]: true }, false);
+        } else {
+            this.setState({ availableNow: true });
+            this.update({ [FN.AllSeasons]: false, [FN.AllWeek]: false, [FN.AllDay]: false }, false);
+        }
     }
 
     render() {
@@ -59,9 +84,15 @@ export default class FiltersBar extends React.Component {
                             onPress={() => {this.setState({extraFiltersVisible: true})}}
                         />
                     }
+                    <Filter title="Available Now" onChange={this.toggleAvailableNow} checked={this.state.availableNow}/>
                     <Filter title="This Season" onChange={() => {this.update({[FN.AllSeasons]: !this.props.filters[FN.AllSeasons]})}} checked={!this.props.filters[FN.AllSeasons]}/>
                     <Filter title={"On " + day} onChange={() => {this.update({[FN.AllWeek]: !this.props.filters[FN.AllWeek]})}} checked={!this.props.filters[FN.AllWeek]}/>
-                    <Filter title="Economy $"   onChange={this.togglePrice} checked={this.props.filters[FN.PriceUnder] <= MIN_PRICE}/>
+                    {this.showTimeOfDayFilter &&
+                    <Filter title={partOfDay + "s"} onChange={() => {
+                        this.update({[FN.AllDay]: !this.props.filters[FN.AllDay]})
+                    }} checked={!this.props.filters[FN.AllDay]}/>
+                    }
+                    <Filter title="Economy $" onChange={this.togglePrice} checked={this.props.filters[FN.PriceUnder] <= MIN_PRICE}/>
                     {Platform.OS !== "web" &&
                     <Button
                         title='More Filters'
