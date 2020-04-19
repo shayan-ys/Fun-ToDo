@@ -4,6 +4,7 @@
     "slug": "FunPlanner",
     "sdkVersion": "37.0.0",
     "platforms": [
+      "web",
       "ios",
       "android"
     ],

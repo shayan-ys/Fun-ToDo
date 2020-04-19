@@ -5,6 +5,7 @@ import { styles } from '../../env';
 
 export default function AboutTab() {
     const screenWidth = Dimensions.get('window').width;
+    const aboutImgWidth = Math.min(screenWidth / 4, 150);
 
     const OpenURLButton = ({ url, children, style = {} }) => {
         const handlePress = useCallback(async () => {
@@ -16,13 +17,13 @@ export default function AboutTab() {
 
     return (
         <SafeAreaView style={{ flex: 1, flexDirection: 'column'}}>
-            <ScrollView style={{ paddingTop: 50 }}>
+            <ScrollView style={{ paddingTop: 50, paddingBottom: 30 }}>
                 <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <Image
                         style={[styles.aboutImage, {
-                            width: screenWidth / 4,
-                            height: screenWidth / 4,
-                            borderRadius: screenWidth / 8,
+                            width: aboutImgWidth,
+                            height: aboutImgWidth,
+                            borderRadius: aboutImgWidth /2,
                             borderWidth: 4,
                             borderColor: '#06A763',
                         }]}
