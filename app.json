@@ -4,12 +4,13 @@
     "slug": "FunPlanner",
     "sdkVersion": "37.0.0",
     "platforms": [
+      "web",
       "ios",
       "android"
     ],
     "version": "0.9.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon.jpg",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain"
@@ -22,7 +23,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.shayanys.funplanner"
+      "bundleIdentifier": "com.shayanys.funplanner",
+      "appStoreUrl": "https://apps.apple.com/ca/app/fun-planner/id1508381465"
     },
     "android": {
       "package": "com.shayanys.funplanner",

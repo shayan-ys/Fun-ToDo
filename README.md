@@ -6,6 +6,8 @@ Hit save!
 Later when the right season comes, you can filter your activities based on seasons, days of the week and price range.
 Find out what to do tonight, never been easier!
 
+### [Screenshots](/screenshots/README.md)
+
 Credit to logo design: Freepik at https://www.flaticon.com/authors/freepik
 
 Developed by Shayan Ys: https://shayanys.com - April 2020

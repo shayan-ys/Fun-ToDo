@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, SafeAreaView, ScrollView, View, Alert } from "react-native";
+import { Text, SafeAreaView, ScrollView, View, Alert, Platform } from "react-native";
 import { Input, Button, ButtonGroup } from 'react-native-elements';
 import { MIN_TITLE_LEN, styles } from "../../env";
 import Storage from '../../storage/Storage';
@@ -44,6 +44,7 @@ class ActivityDetails extends React.Component {
         this.save = this.save.bind(this);
         this.setActivity = this.setActivity.bind(this);
         this.validateTitle = this.validateTitle.bind(this);
+        this.confirmDelete = this.confirmDelete.bind(this);
     }
 
     setActivity(change, callback = (activity, key, newValue) => {}) {
@@ -119,7 +120,7 @@ class ActivityDetails extends React.Component {
         }
     }
 
-    confirmDelete = () =>
+    confirmDeleteMobile = () =>
         Alert.alert(
             "Are you sure?",
             `Deleting "${this.state.activity.title}" activity`,
@@ -133,6 +134,13 @@ class ActivityDetails extends React.Component {
             { cancelable: false }
         );
 
+    confirmDeleteWeb() {
+        if (confirm("Are you sure?")) {
+            this.delete();
+        }
+    }
+
+    confirmDelete = Platform.OS === "web" ? this.confirmDeleteWeb : this.confirmDeleteMobile
 
     makeCheckBox(value, index) {
         return <Button
